@@ -116,12 +116,53 @@ func (s *MinStack) Print() {
 	println("++++++++++++++++++++++++++++++++++++")
 }
 
+/*
+	整形 最小值堆栈
+*/
 type IntMinStack struct {
 	MinStack
 
 	lessOrEqual _int
 }
 
+/*
+	初始化 整形 最小值堆栈
+	主要目的： 设置 整形比较接口函数 lte
+*/
 func (s *IntMinStack) Init() {
+	s.MinStack.lessOrEqual = s.lessOrEqual
+}
+
+/*
+	64位 浮点型 最小值堆栈
+*/
+type Float64MinStack struct {
+	MinStack
+
+	lessOrEqual _float64
+}
+
+/*
+	初始化 整形 最小值堆栈
+	主要目的： 设置 整形比较接口函数 lte
+*/
+func (s *Float64MinStack) Init() {
+	s.MinStack.lessOrEqual = s.lessOrEqual
+}
+
+/*
+	字符串类型 最小值堆栈
+*/
+type StringMinStack struct {
+	MinStack
+
+	lessOrEqual _string
+}
+
+/*
+	初始化 整形 最小值堆栈
+	主要目的： 设置 整形比较接口函数 lte
+*/
+func (s *StringMinStack) Init() {
 	s.MinStack.lessOrEqual = s.lessOrEqual
 }
