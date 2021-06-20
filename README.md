@@ -11,5 +11,5 @@
     
   2. 关于泛型：
     - 1. 通用算法实现思路1：通过空接口实现通用算法。涉及到数据自身处理，需要以函数接口形式实现。
-    - 2. 通用算法实现思路2： 手动实现常用护具类型的通用算法（int, float64, string 等），参照 [go.sort package](https://github.com/golang/go/blob/master/src/sort/sort.go)
+    - 2. 通用算法实现思路2： 手动实现常用类型的通用算法（int, float64, string 等），参照 [go.sort package](https://github.com/golang/go/blob/master/src/sort/sort.go)
     
