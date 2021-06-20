@@ -143,8 +143,8 @@ type Float64MinStack struct {
 }
 
 /*
-	初始化 整形 最小值堆栈
-	主要目的： 设置 整形比较接口函数 lte
+	初始化 64位浮点型 最小值堆栈
+	主要目的： 设置 64位浮点型 比较接口函数 lte
 */
 func (s *Float64MinStack) Init() {
 	s.MinStack.lessOrEqual = s.lessOrEqual
@@ -160,8 +160,8 @@ type StringMinStack struct {
 }
 
 /*
-	初始化 整形 最小值堆栈
-	主要目的： 设置 整形比较接口函数 lte
+	初始化 字符串类型 最小值堆栈
+	主要目的： 设置 字符串类型 比较接口函数 lte
 */
 func (s *StringMinStack) Init() {
 	s.MinStack.lessOrEqual = s.lessOrEqual
