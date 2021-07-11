@@ -3,32 +3,32 @@ package collections
 import "reflect"
 
 type Stack struct {
-	data []interface{}
+	Data []interface{}
 }
 
 /**
 	Push value to stack
 **/
 func (s *Stack) Push(value interface{}) {
-	if len(s.data) > 0 {
+	if len(s.Data) > 0 {
 		typ := reflect.TypeOf(value)
-		typ2 := reflect.TypeOf(s.data[0])
+		typ2 := reflect.TypeOf(s.Data[0])
 		if typ.PkgPath()+"#"+typ.Name() != typ2.PkgPath()+"#"+typ2.Name() {
 			panic("pushing different type onto stack")
 		}
 	}
-	s.data = append(s.data, value)
+	s.Data = append(s.Data, value)
 }
 
 /**
 	Pop the value from the top of stack
 **/
 func (s *Stack) Pop() interface{} {
-	l := len(s.data)
+	l := len(s.Data)
 	if l > 0 {
-		value := s.data[l-1]
-		s.data[l-1] = nil
-		s.data = s.data[:l-1]
+		value := s.Data[l-1]
+		s.Data[l-1] = nil
+		s.Data = s.Data[:l-1]
 
 		return value
 	}
@@ -41,9 +41,9 @@ func (s *Stack) Pop() interface{} {
 	Fetch the value from the top of stack
 **/
 func (s *Stack) Peek() interface{} {
-	l := len(s.data)
+	l := len(s.Data)
 	if l > 0 {
-		value := s.data[l-1]
+		value := s.Data[l-1]
 		return value
 	}
 
@@ -51,5 +51,5 @@ func (s *Stack) Peek() interface{} {
 }
 
 func (s *Stack) Length() int {
-	return len(s.data)
+	return len(s.Data)
 }

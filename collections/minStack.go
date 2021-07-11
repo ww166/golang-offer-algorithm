@@ -97,8 +97,8 @@ func (s *MinStack) Peek() LessOrEqual {
 
 func (s *MinStack) Print() {
 	println("++++++++++++++++++++++++++++++++++++")
-	if nil != s.data.data {
-		for _, v := range s.data.data {
+	if nil != s.data.Data {
+		for _, v := range s.data.Data {
 			print("%v", v)
 			print(", ")
 		}
@@ -106,8 +106,8 @@ func (s *MinStack) Print() {
 
 	println("----------------------")
 
-	if nil != s.minData.data {
-		for _, v := range s.minData.data {
+	if nil != s.minData.Data {
+		for _, v := range s.minData.Data {
 			print("%v", v)
 			print(", ")
 		}

@@ -1,9 +1,9 @@
 package main
 
 import (
+	//"x.localhost/collections"
 	"fmt"
 
-	//"x.localhost/collections"
 	"x.localhost/examples"
 )
 
@@ -41,6 +41,12 @@ func main() {
 	// Z字形变换
 	//ret := examples.ZConvert("PAYPALISHIRING", 3)
 	//fmt.Println(ret)
-	ret := examples.ZConvert("A", 1)
+	// ret := examples.ZConvert("A", 1)
+	// fmt.Println(ret)
+
+	// 双栈排序
+	a := [...]int{1, 3, 4, 5, 2, 6, 9, 8}
+	ret := examples.IntDoubleStackSort(a[:]...)
 	fmt.Println(ret)
+
 }
