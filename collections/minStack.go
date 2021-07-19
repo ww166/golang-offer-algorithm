@@ -9,6 +9,7 @@ type _float64 float64
 type _string string
 
 type LessOrEqual interface {
+	DataInterface
 	lte(a, b interface{}, defaultValue bool) bool
 }
 
@@ -57,9 +58,14 @@ type MinStack struct {
 
 func (s *MinStack) New(l LessOrEqual) {
 	s.lessOrEqual = l
+	localStackData := &StackData{}
+	localMiniStackData := &StackData{}
+
+	s.data.Init(localStackData)
+	s.minData.Init(localMiniStackData)
 }
 
-func (s *MinStack) Push(value interface{}) {
+func (s *MinStack) Push(value DataInterface) {
 	peekValue := s.minData.Peek()
 	s.data.Push(value)
 
@@ -75,7 +81,7 @@ func (s *MinStack) Push(value interface{}) {
 /**
 	Pop the value from the top of stack
 **/
-func (s *MinStack) Pop() interface{} {
+func (s *MinStack) Pop() DataInterface {
 	l := s.data.Length()
 	if l > 0 {
 		value := s.data.Pop()
@@ -97,8 +103,8 @@ func (s *MinStack) Peek() LessOrEqual {
 
 func (s *MinStack) Print() {
 	println("++++++++++++++++++++++++++++++++++++")
-	if nil != s.data.Data {
-		for _, v := range s.data.Data {
+	if nil != s.data.Self.data {
+		for _, v := range s.data.Self.data {
 			print("%v", v)
 			print(", ")
 		}
@@ -106,8 +112,8 @@ func (s *MinStack) Print() {
 
 	println("----------------------")
 
-	if nil != s.minData.Data {
-		for _, v := range s.minData.Data {
+	if nil != s.minData.Self.data {
+		for _, v := range s.minData.Self.data {
 			print("%v", v)
 			print(", ")
 		}
@@ -130,6 +136,7 @@ type IntMinStack struct {
 	主要目的： 设置 整形比较接口函数 lte
 */
 func (s *IntMinStack) Init() {
+	s.New(s.lessOrEqual)
 	s.MinStack.lessOrEqual = s.lessOrEqual
 }
 
@@ -147,6 +154,7 @@ type Float64MinStack struct {
 	主要目的： 设置 64位浮点型 比较接口函数 lte
 */
 func (s *Float64MinStack) Init() {
+	s.New(s.lessOrEqual)
 	s.MinStack.lessOrEqual = s.lessOrEqual
 }
 
@@ -164,5 +172,6 @@ type StringMinStack struct {
 	主要目的： 设置 字符串类型 比较接口函数 lte
 */
 func (s *StringMinStack) Init() {
+	s.New(s.lessOrEqual)
 	s.MinStack.lessOrEqual = s.lessOrEqual
 }

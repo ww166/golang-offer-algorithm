@@ -2,33 +2,52 @@ package collections
 
 import "reflect"
 
+type DataInterface interface {
+}
+
+type StackData struct {
+	data []DataInterface
+}
+
+type StackInterface interface {
+	Init(*StackData) *StackInterface
+}
+
 type Stack struct {
-	Data []interface{}
+	Self *StackData
+}
+
+/**
+Initialize data
+*/
+func (s *Stack) Init(other *StackData) *StackData {
+	s.Self = other
+	return s.Self
 }
 
 /**
 	Push value to stack
 **/
-func (s *Stack) Push(value interface{}) {
-	if len(s.Data) > 0 {
+func (s *Stack) Push(value DataInterface) {
+	if len(s.Self.data) > 0 {
 		typ := reflect.TypeOf(value)
-		typ2 := reflect.TypeOf(s.Data[0])
+		typ2 := reflect.TypeOf(s.Self.data[0])
 		if typ.PkgPath()+"#"+typ.Name() != typ2.PkgPath()+"#"+typ2.Name() {
 			panic("pushing different type onto stack")
 		}
 	}
-	s.Data = append(s.Data, value)
+	s.Self.data = append(s.Self.data, value)
 }
 
 /**
 	Pop the value from the top of stack
 **/
-func (s *Stack) Pop() interface{} {
-	l := len(s.Data)
+func (s *Stack) Pop() DataInterface {
+	l := len(s.Self.data)
 	if l > 0 {
-		value := s.Data[l-1]
-		s.Data[l-1] = nil
-		s.Data = s.Data[:l-1]
+		value := s.Self.data[l-1]
+		s.Self.data[l-1] = nil
+		s.Self.data = s.Self.data[:l-1]
 
 		return value
 	}
@@ -40,10 +59,10 @@ func (s *Stack) Pop() interface{} {
 /**
 	Fetch the value from the top of stack
 **/
-func (s *Stack) Peek() interface{} {
-	l := len(s.Data)
+func (s *Stack) Peek() DataInterface {
+	l := len(s.Self.data)
 	if l > 0 {
-		value := s.Data[l-1]
+		value := s.Self.data[l-1]
 		return value
 	}
 
@@ -51,5 +70,5 @@ func (s *Stack) Peek() interface{} {
 }
 
 func (s *Stack) Length() int {
-	return len(s.Data)
+	return len(s.Self.data)
 }

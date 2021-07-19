@@ -1,14 +1,12 @@
 package main
 
 import (
-	//"x.localhost/collections"
 	"fmt"
-
-	"x.localhost/examples"
+	"x.localhost/collections"
 )
 
 func main() {
-	//arr := []int{4, 3, 1, 4, 6, 2, 1, 3, 2, 5, 1}
+	arr := []int{4, 3, 1, 4, 6, 2, 1, 3, 2, 5, 1}
 
 	//myStack := &collections.Stack{}
 	//
@@ -23,20 +21,20 @@ func main() {
 	//	fmt.Println(myStack)
 	//}
 
-	//myMinStack := &collections.IntMinStack{}
-	//myMinStack.Init()
-	//
-	//for _, v := range arr {
-	//	myMinStack.Push(v)
-	//}
-	//
-	//fmt.Println(myMinStack)
-	//
-	//for range arr {
-	//	myMinStack.Pop()
-	//	fmt.Println(myMinStack)
-	//	//myMinStack.Print()
-	//}
+	myMinStack := &collections.IntMinStack{}
+	myMinStack.Init()
+
+	for _, v := range arr {
+		myMinStack.Push(v)
+	}
+
+	fmt.Println(myMinStack)
+
+	for range arr {
+		myMinStack.Pop()
+		fmt.Println(myMinStack)
+		//myMinStack.Print()
+	}
 
 	// Z字形变换
 	//ret := examples.ZConvert("PAYPALISHIRING", 3)
@@ -45,8 +43,8 @@ func main() {
 	// fmt.Println(ret)
 
 	// 双栈排序
-	a := [...]int{1, 3, 4, 5, 2, 6, 9, 8}
-	ret := examples.IntDoubleStackSort(a[:]...)
-	fmt.Println(ret)
+	//a := [...]int{1, 3, 4, 5, 2, 6, 9, 8}
+	//ret := examples.IntDoubleStackSort(a[:]...)
+	//fmt.Println(ret)
 
 }

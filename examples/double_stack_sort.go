@@ -1,8 +1,6 @@
 package examples
 
 import (
-	"fmt"
-
 	"x.localhost/collections"
 )
 
@@ -14,7 +12,8 @@ type _int int
 type _float64 float64
 type _string string
 
-type Interface interface {
+type LessInterface interface {
+	collections.DataInterface
 	less(a interface{}) bool
 }
 
@@ -32,33 +31,42 @@ func (s _string) less(a interface{}) bool {
 
 type LessableStack struct {
 	collections.Stack
-
-	data []Interface
 }
 
-func (s *LessableStack) init() {
-	s.Stack.Data = []
+func (s *LessableStack) Init(other *collections.StackData) *collections.StackData {
+	s.Self = other
+	return s.Self
 }
 
 func DoubleStackSort(source LessableStack) {
 	help := LessableStack{}
-	help.init()
+	helpData := &collections.StackData{}
+	help.Init(helpData)
 
 	for {
 		v := source.Pop()
 		if nil != v {
 			peek := help.Peek()
 
-			if peek != nil && v.(Interface).less(peek) {
-				for popValue := help.Pop(); popValue != nil; {
-					if v.(Interface).less(popValue) {
+			if peek != nil && v.(LessInterface).less(peek) {
+				popValue := help.Pop()
+				for {
+					if popValue == nil {
+						help.Push(v)
+						break
+					}
+
+					lessThanPop := v.(LessInterface).less(popValue)
+
+					if lessThanPop {
 						source.Push(popValue)
 					} else {
 						help.Push(v)
 						break
 					}
-
+					popValue = help.Pop()
 				}
+
 			} else {
 				help.Push(v)
 			}
@@ -80,10 +88,8 @@ func DoubleStackSort(source LessableStack) {
 
 func IntDoubleStackSort(a ...int) LessableStack {
 	source_stack := LessableStack{}
-	help_stack := LessableStack{}
-
-	source_stack.init()
-	help_stack.init()
+	stackData := &collections.StackData{}
+	source_stack.Init(stackData)
 
 	for _, v := range a {
 		_v := _int(v)
@@ -92,9 +98,5 @@ func IntDoubleStackSort(a ...int) LessableStack {
 
 	DoubleStackSort(source_stack)
 
-	for v := help_stack.Pop(); v != nil; {
-		fmt.Println(v)
-	}
-
-	return help_stack
+	return source_stack
 }
