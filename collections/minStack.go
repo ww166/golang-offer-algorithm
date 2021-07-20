@@ -58,8 +58,8 @@ type MinStack struct {
 
 func (s *MinStack) New(l LessOrEqual) {
 	s.lessOrEqual = l
-	localStackData := &StackData{}
-	localMiniStackData := &StackData{}
+	localStackData := &Data{}
+	localMiniStackData := &Data{}
 
 	s.data.Init(localStackData)
 	s.minData.Init(localMiniStackData)

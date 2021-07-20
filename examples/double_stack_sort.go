@@ -33,14 +33,14 @@ type LessableStack struct {
 	collections.Stack
 }
 
-func (s *LessableStack) Init(other *collections.StackData) *collections.StackData {
+func (s *LessableStack) Init(other *collections.Data) *collections.Data {
 	s.Self = other
 	return s.Self
 }
 
 func DoubleStackSort(source LessableStack) {
 	help := LessableStack{}
-	helpData := &collections.StackData{}
+	helpData := &collections.Data{}
 	help.Init(helpData)
 
 	for {
@@ -88,7 +88,7 @@ func DoubleStackSort(source LessableStack) {
 
 func IntDoubleStackSort(a ...int) LessableStack {
 	source_stack := LessableStack{}
-	stackData := &collections.StackData{}
+	stackData := &collections.Data{}
 	source_stack.Init(stackData)
 
 	for _, v := range a {

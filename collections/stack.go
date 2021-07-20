@@ -5,22 +5,22 @@ import "reflect"
 type DataInterface interface {
 }
 
-type StackData struct {
+type Data struct {
 	data []DataInterface
 }
 
-type StackInterface interface {
-	Init(*StackData) *StackInterface
+type Interface interface {
+	Init(*Data) *Interface
 }
 
 type Stack struct {
-	Self *StackData
+	Self *Data
 }
 
 /**
 Initialize data
 */
-func (s *Stack) Init(other *StackData) *StackData {
+func (s *Stack) Init(other *Data) *Data {
 	s.Self = other
 	return s.Self
 }
