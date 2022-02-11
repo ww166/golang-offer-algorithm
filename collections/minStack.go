@@ -1,110 +1,84 @@
 package collections
 
 import (
+	"constraints"
+	"errors"
 	"fmt"
+	"reflect"
 )
 
 type _int int
 type _float64 float64
 type _string string
 
-type LessOrEqual interface {
-	DataInterface
-	lte(a, b interface{}, defaultValue bool) bool
+//type LTE func[V constraints.Ordered](a, b V) bool
+
+func LTE[V constraints.Ordered](a, b V) bool {
+	return a <= b
 }
 
-func (s _int) lte(a, b interface{}, defaultValue bool) bool {
-	aValue, aOk := a.(int)
-	bValue, bOk := b.(int)
-
-	if aOk && bOk {
-		return aValue <= bValue
-	}
-
-	return defaultValue
-}
-
-func (s _float64) lte(a, b interface{}, defaultValue bool) bool {
-	aValue, aOk := a.(float64)
-	bValue, bOk := b.(float64)
-
-	if aOk && bOk {
-		return aValue <= bValue
-	}
-
-	return defaultValue
-}
-
-func (s _string) lte(a, b interface{}, defaultValue bool) bool {
-	aValue, aOk := a.(string)
-	bValue, bOk := b.(string)
-
-	if aOk && bOk {
-		return aValue <= bValue
-	}
-
-	return defaultValue
-
-}
-
-type MinStack struct {
+type MinStack[V constraints.Ordered] struct {
 	data    Stack
 	minData Stack
-
-	lessOrEqual LessOrEqual
 }
 
-// Create MinStack with lte function
+func (s *MinStack[V]) New() {
 
-func (s *MinStack) New(l LessOrEqual) {
-	s.lessOrEqual = l
-	localStackData := &Data{}
-	localMiniStackData := &Data{}
-
-	s.data.Init(localStackData)
-	s.minData.Init(localMiniStackData)
 }
 
-func (s *MinStack) Push(value DataInterface) {
-	peekValue := s.minData.Peek()
+func (s *MinStack[V]) Push(value V) {
+	peekValue, err := s.minData.Peek()
 	s.data.Push(value)
 
 	fmt.Println(fmt.Sprintf("value: %v", value))
 	fmt.Println(fmt.Sprintf("minData.Peek: %v", peekValue))
 
-	if s.lessOrEqual.lte(value, peekValue, true) {
+	if err == nil {
 		fmt.Println(fmt.Sprintf("value: %v is lte %v", value, peekValue))
 		s.minData.Push(value)
+	} else {
+		//convertedPeekValue := reflect.ValueOf(value).Convert(reflect.TypeOf(peekValue))
+		//convertedValue := reflect.ValueOf(value).Convert(reflect.TypeOf(value))
+		convertedPeekValue := reflect.ValueOf(peekValue).Interface().(V)
+		convertedValue := reflect.ValueOf(value).Interface().(V)
+
+		if convertedValue <= convertedPeekValue {
+			fmt.Println(fmt.Sprintf("value: %v is lte %v", value, peekValue))
+			s.minData.Push(value)
+		}
 	}
 }
 
 /**
 	Pop the value from the top of stack
 **/
-func (s *MinStack) Pop() DataInterface {
+func (s *MinStack[V]) Pop() (V, error) {
 	l := s.data.Length()
 	if l > 0 {
-		value := s.data.Pop()
-		if value == s.minData.Peek() {
-			s.minData.Pop()
+		value, _ := s.data.Pop()
+		p, _ := s.minData.Peek()
+		if value == p {
+			p, _ := s.minData.Pop()
+			print(p)
 		}
-		return value
+		return reflect.ValueOf(value).Interface().(V), nil
 	}
 
-	return nil
+	return *new(V), errors.New("empty stack")
 }
 
 /**
 	Fetch the value from the top of stack
 **/
-func (s *MinStack) Peek() LessOrEqual {
-	return s.data.Peek().(LessOrEqual)
+func (s *MinStack[V]) Peek() (V, error) {
+	v, err := s.data.Peek()
+	return reflect.ValueOf(v).Interface().(V), err
 }
 
-func (s *MinStack) Print() {
+func (s *MinStack[V]) Print() {
 	println("++++++++++++++++++++++++++++++++++++")
-	if nil != s.data.Self.data {
-		for _, v := range s.data.Self.data {
+	if nil != s.data {
+		for _, v := range s.data {
 			print("%v", v)
 			print(", ")
 		}
@@ -112,66 +86,12 @@ func (s *MinStack) Print() {
 
 	println("----------------------")
 
-	if nil != s.minData.Self.data {
-		for _, v := range s.minData.Self.data {
+	if nil != s.minData {
+		for _, v := range s.minData {
 			print("%v", v)
 			print(", ")
 		}
 	}
 
 	println("++++++++++++++++++++++++++++++++++++")
-}
-
-/*
-	整形 最小值堆栈
-*/
-type IntMinStack struct {
-	MinStack
-
-	lessOrEqual _int
-}
-
-/*
-	初始化 整形 最小值堆栈
-	主要目的： 设置 整形比较接口函数 lte
-*/
-func (s *IntMinStack) Init() {
-	s.New(s.lessOrEqual)
-	s.MinStack.lessOrEqual = s.lessOrEqual
-}
-
-/*
-	64位 浮点型 最小值堆栈
-*/
-type Float64MinStack struct {
-	MinStack
-
-	lessOrEqual _float64
-}
-
-/*
-	初始化 64位浮点型 最小值堆栈
-	主要目的： 设置 64位浮点型 比较接口函数 lte
-*/
-func (s *Float64MinStack) Init() {
-	s.New(s.lessOrEqual)
-	s.MinStack.lessOrEqual = s.lessOrEqual
-}
-
-/*
-	字符串类型 最小值堆栈
-*/
-type StringMinStack struct {
-	MinStack
-
-	lessOrEqual _string
-}
-
-/*
-	初始化 字符串类型 最小值堆栈
-	主要目的： 设置 字符串类型 比较接口函数 lte
-*/
-func (s *StringMinStack) Init() {
-	s.New(s.lessOrEqual)
-	s.MinStack.lessOrEqual = s.lessOrEqual
 }

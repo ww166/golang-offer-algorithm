@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+)
+
+import (
 	"x.localhost/collections"
 )
 
@@ -21,8 +24,7 @@ func main() {
 	//	fmt.Println(myStack)
 	//}
 
-	myMinStack := &collections.IntMinStack{}
-	myMinStack.Init()
+	myMinStack := new(collections.MinStack[int])
 
 	for _, v := range arr {
 		myMinStack.Push(v)
