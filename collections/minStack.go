@@ -33,7 +33,7 @@ func (s *MinStack[V]) Push(value V) {
 	fmt.Println(fmt.Sprintf("value: %v", value))
 	fmt.Println(fmt.Sprintf("minData.Peek: %v", peekValue))
 
-	if err == nil {
+	if err != nil {
 		fmt.Println(fmt.Sprintf("value: %v is lte %v", value, peekValue))
 		s.minData.Push(value)
 	} else {
@@ -45,6 +45,8 @@ func (s *MinStack[V]) Push(value V) {
 		if convertedValue <= convertedPeekValue {
 			fmt.Println(fmt.Sprintf("value: %v is lte %v", value, peekValue))
 			s.minData.Push(value)
+		} else {
+			s.minData.Push(peekValue)
 		}
 	}
 }
@@ -56,11 +58,8 @@ func (s *MinStack[V]) Pop() (V, error) {
 	l := s.data.Length()
 	if l > 0 {
 		value, _ := s.data.Pop()
-		p, _ := s.minData.Peek()
-		if value == p {
-			p, _ := s.minData.Pop()
-			print(p)
-		}
+		p, _ := s.minData.Pop()
+		print(p)
 		return reflect.ValueOf(value).Interface().(V), nil
 	}
 
